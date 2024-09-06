@@ -20,3 +20,40 @@ model User {
 
   @@map("users")
 }
+
+model Role {
+  id         String       @id @default(uuid())
+  name       String       @unique
+  Permission Permission[]
+
+  @@map("roles")
+}
+
+model Module {
+  id     String   @id @default(uuid())
+  name   String   @unique
+  Action Action[]
+
+  @@map("modules")
+}
+
+model Action {
+  id       String @id @default(uuid())
+  name     String @unique
+  moduleId String @map("module_id")
+
+  module Module @relation(fields: [moduleId], references: [id])
+
+  @@map("actions")
+}
+
+model Permission {
+  id     String @id @default(uuid())
+  name   String @unique
+  roleId String @map("role_id")
+  module String @map("module")
+  action String @map("action")
+  Role   Role   @relation(fields: [roleId], references: [id])
+
+  @@map("permissions")
+}

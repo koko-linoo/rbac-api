@@ -22,6 +22,9 @@ export class ModulesService {
       where: {
         id,
       },
+      include: {
+        actions: true,
+      },
     });
   }
 

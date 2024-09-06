@@ -10,7 +10,7 @@ import { JwtStrategy } from './guards/jwt.strategy';
     UsersModule,
     JwtModule.register({
       secret: 'secret',
-      signOptions: { expiresIn: '1d' },
+      signOptions: { expiresIn: '30s' },
     }),
   ],
   controllers: [AuthController],

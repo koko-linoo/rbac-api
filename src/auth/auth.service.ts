@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
-import { LoginDto } from './dto/login.dto';
+import { JwtUser, LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -27,5 +27,31 @@ export class AuthService {
   async profile(userId: string) {
     const user = await this.usersService.findOne(userId);
     return user;
+  }
+
+  async checkPermission(permission: [string, string], jwtUser: JwtUser) {
+    const user = await this.usersService.findOne(jwtUser.id);
+    console.log({ user });
+
+    if (!user) return false;
+
+    const role = user.role;
+    console.log({ role });
+
+    if (!role) return false;
+
+    const permissions = role.permissions;
+    console.log({ permissions });
+
+    if (!permissions) return false;
+
+    const permissionExists = permissions.find(
+      ({ module, action }) =>
+        module === permission[0] && action === permission[1],
+    );
+
+    if (!permissionExists) return false;
+
+    return true;
   }
 }

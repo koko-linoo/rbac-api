@@ -14,13 +14,32 @@ export class UsersService {
   }
 
   findAll() {
-    return this.prisma.user.findMany();
+    return this.prisma.user.findMany({
+      omit: {
+        password: true,
+      },
+    });
   }
 
   findOne(id: string) {
     return this.prisma.user.findUnique({
       where: {
         id,
+      },
+      include: {
+        role: {
+          select: {
+            id: true,
+            name: true,
+            permissions: {
+              select: {
+                roleId: true,
+                module: true,
+                action: true,
+              },
+            },
+          },
+        },
       },
     });
   }

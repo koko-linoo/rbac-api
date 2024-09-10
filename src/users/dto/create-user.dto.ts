@@ -21,6 +21,13 @@ export class CreateUserDto {
   fullName: string;
 
   @IsString()
+  @IsOptional()
+  @ApiProperty({
+    example: '631354f9-33c9-46a0-bee8-43048c9c0570',
+  })
+  roleId: string;
+
+  @IsString()
   @ApiProperty({
     example: 'S3cret',
   })

@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/utils/decorators/user.decorator';
+import { JwtAuthGuard } from '../utils/guards/jwt-auth.guard';
 import { AuthService } from './auth.service';
 import { JwtUser, LoginDto, TokenDto } from './dto/login.dto';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @ApiTags('auth')
 @Controller()
@@ -29,6 +29,6 @@ export class AuthController {
   })
   @Get('profile')
   profile(@User() user: JwtUser) {
-    return user;
+    return this.authService.profile(user.id);
   }
 }

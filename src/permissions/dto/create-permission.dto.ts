@@ -16,7 +16,7 @@ export class CreatePermissionDto {
 
   @IsString()
   @ApiProperty({
-    example: '4d0a33c3-e4c9-4714-b2ef-eeb5c904af85',
+    example: '631354f9-33c9-46a0-bee8-43048c9c0570',
   })
   roleId: string;
 }

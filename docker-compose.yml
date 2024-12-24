@@ -1,13 +1,12 @@
 version: '3.9'
-
 services:
-  postgres:
-    image: postgres:14-alpine
+  mysql:
+    container_name: mysql
+    image: mysql:8.0.27
     ports:
-      - 5432:5432
+      - 3306:3306
     volumes:
-      - ~/apps/postgres:/var/lib/postgresql/data
+      - ~/apps/mysql:/var/lib/mysql
     environment:
-      - POSTGRES_PASSWORD=S3cret
-      - POSTGRES_USER=citizix_user
-      - POSTGRES_DB=citizix_db
+      - MYSQL_DATABASE=my-db
+      - MYSQL_ROOT_PASSWORD=password

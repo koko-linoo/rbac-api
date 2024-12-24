@@ -1,23 +1,24 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { compare } from 'bcrypt';
 import { UsersService } from 'src/users/users.service';
 import { JwtUser, LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly usersService: UsersService,
-    private jwtService: JwtService,
+    private readonly service: UsersService,
+    private jwt: JwtService,
   ) {}
 
   async login({ username, password }: LoginDto) {
-    const user = await this.usersService.findOneByName(username);
-    if (user?.password !== password) {
-      throw new UnauthorizedException();
-    }
+    const user = await this.service.findOneByName(username);
+    const isMatch = await compare(password, user.password);
+
+    if (!isMatch) throw new UnauthorizedException();
 
     return {
-      accessToken: await this.jwtService.signAsync({
+      accessToken: await this.jwt.signAsync({
         id: user.id,
         username: user.username,
       }),
@@ -25,23 +26,19 @@ export class AuthService {
   }
 
   async profile(userId: string) {
-    const user = await this.usersService.findOne(userId);
-    return user;
+    return this.service.findOne(userId);
   }
 
   async checkPermission(permission: [string, string], jwtUser: JwtUser) {
-    const user = await this.usersService.findOne(jwtUser.id);
-    console.log({ user });
+    const user = await this.service.findOne(jwtUser.id);
 
     if (!user) return false;
 
     const role = user.role;
-    console.log({ role });
 
     if (!role) return false;
 
     const permissions = role.permissions;
-    console.log({ permissions });
 
     if (!permissions) return false;
 

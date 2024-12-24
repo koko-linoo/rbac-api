@@ -6,13 +6,16 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { PaginationQueryDto } from 'src/commons/dtos/pagination-query.dto';
 import { Permission } from 'src/utils/decorators/permission.decorator';
 import { JwtAuthGuard } from 'src/utils/guards/jwt-auth.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserPaginatedResponseDto } from './dto/user-paginated-response.dto';
 import { UserEntity } from './entities/user.entity';
 import { UsersService } from './users.service';
 
@@ -32,11 +35,11 @@ export class UsersController {
   }
 
   @ApiBearerAuth()
-  @ApiResponse({ status: 200, type: [UserEntity] })
+  @ApiResponse({ status: 200, type: UserPaginatedResponseDto })
   @Get()
   @Permission(['User', 'User-list'])
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@Query() query: PaginationQueryDto) {
+    return this.usersService.findAll(query);
   }
 
   @Get(':id')

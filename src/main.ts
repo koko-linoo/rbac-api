@@ -37,6 +37,9 @@ async function bootstrap() {
         }),
       ],
     }),
+    cors: {
+      origin: '*',
+    },
   });
 
   const config = new DocumentBuilder()

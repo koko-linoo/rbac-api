@@ -13,11 +13,18 @@ export class AuthService {
 
   async login({ username, password }: LoginDto) {
     const user = await this.service.findOneByName(username);
+
+    if (!user) throw new UnauthorizedException("User doesn't exist");
+
     const isMatch = await compare(password, user.password);
 
-    if (!isMatch) throw new UnauthorizedException();
+    if (!isMatch)
+      throw new UnauthorizedException('Invalid Credentials. Please try again');
+
+    delete user.password;
 
     return {
+      ...user,
       accessToken: await this.jwt.signAsync({
         id: user.id,
         username: user.username,

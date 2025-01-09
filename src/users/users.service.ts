@@ -91,9 +91,16 @@ export class UsersService {
   }
 
   findOneByName(username: string) {
-    return this.prisma.user.findUnique({
+    return this.prisma.user.findFirst({
       where: {
-        username,
+        OR: [
+          {
+            username,
+          },
+          {
+            email: username,
+          },
+        ],
       },
     });
   }

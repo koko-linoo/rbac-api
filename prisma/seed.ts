@@ -28,6 +28,18 @@ async function main() {
                   action: 'User-list',
                   module: 'User',
                 },
+                {
+                  action: 'User-detail',
+                  module: 'User',
+                },
+                {
+                  action: 'User-update',
+                  module: 'User',
+                },
+                {
+                  action: 'User-delete',
+                  module: 'User',
+                },
               ],
             },
           },

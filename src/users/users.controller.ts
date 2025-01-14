@@ -36,8 +36,8 @@ export class UsersController {
 
   @ApiBearerAuth()
   @ApiResponse({ status: 200, type: UserPaginatedResponseDto })
-  @Get()
   @Permission(['User', 'User-list'])
+  @Get()
   findAll(@Query() query: PaginationQueryDto) {
     return this.usersService.findAll(query);
   }

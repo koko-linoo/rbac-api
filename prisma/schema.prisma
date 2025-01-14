@@ -19,9 +19,35 @@ model User {
   profileUrl String?  @map("profile_url")
   roleId     String?  @map("role_id")
 
-  role Role? @relation(fields: [roleId], references: [id])
+  role    Role?     @relation(fields: [roleId], references: [id])
+  Message Message[]
 
   @@map("users")
+}
+
+model ChatRoom {
+  id        String    @id @default(uuid())
+  name      String
+  userList  String    @map("user_list")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  messages  Message[]
+
+  @@map("chat_rooms")
+}
+
+model Message {
+  id         String   @id @default(uuid())
+  message    String
+  userId     String
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  chatRoomId String   @map("chat_room_id")
+  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("messages")
 }
 
 model Role {

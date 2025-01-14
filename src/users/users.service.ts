@@ -58,6 +58,9 @@ export class UsersService {
       omit: {
         password: true,
       },
+      include: {
+        role: true,
+      },
     });
 
     return {
@@ -102,11 +105,15 @@ export class UsersService {
           },
         ],
       },
+      include: {
+        role: true,
+      },
     });
   }
 
   update(id: string, data: UpdateUserDto) {
     return this.prisma.user.update({
+      omit: { password: true },
       where: {
         id,
       },

@@ -1,42 +1,10 @@
 import { NestFactory } from '@nestjs/core';
+import { IoAdapter } from '@nestjs/platform-socket.io';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { WinstonModule } from 'nest-winston';
-import path from 'path';
-import * as winston from 'winston';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    logger: WinstonModule.createLogger({
-      transports: [
-        new winston.transports.Console({
-          level: 'info',
-          format: winston.format.combine(
-            winston.format.colorize(),
-            winston.format.simple(),
-            winston.format.timestamp(),
-          ),
-        }),
-        new winston.transports.File({
-          filename: 'errors.log',
-          level: 'error',
-          dirname: path.join(__dirname, './../logs'),
-          format: winston.format.combine(
-            winston.format.json(),
-            winston.format.timestamp(),
-          ),
-        }),
-        new winston.transports.File({
-          filename: 'debug.log',
-          level: 'debug',
-          dirname: path.join(__dirname, './../logs'),
-          format: winston.format.combine(
-            winston.format.json(),
-            winston.format.timestamp(),
-          ),
-        }),
-      ],
-    }),
     cors: {
       origin: '*',
     },
@@ -56,5 +24,14 @@ async function bootstrap() {
   await app.listen(3001);
 
   console.log('Listening at http://localhost:3001');
+
+  // Create WebSocket instance
+  const wsApp = await NestFactory.create(AppModule);
+
+  wsApp.useWebSocketAdapter(new IoAdapter(wsApp));
+
+  await wsApp.listen(3002);
+
+  console.log('WebSocket server running on ws://localhost:3002');
 }
 bootstrap();

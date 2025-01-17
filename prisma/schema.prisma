@@ -51,8 +51,10 @@ model Message {
 }
 
 model Role {
-  id          String       @id @default(uuid())
-  name        String       @unique
+  id          String  @id @default(uuid())
+  name        String  @unique
+  description String?
+
   permissions Permission[]
   user        User[]
 

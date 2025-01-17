@@ -13,12 +13,15 @@ export class RolesService {
     });
   }
 
-  findAll() {
-    return this.prisma.role.findMany({
-      include: {
-        permissions: true,
-      },
-    });
+  async findAll() {
+    const data = await this.prisma.role.findMany();
+
+    const totalCount = await this.prisma.role.count();
+
+    return {
+      data,
+      totalCount,
+    };
   }
 
   findOne(id: string) {

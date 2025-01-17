@@ -4,19 +4,19 @@ import { IsOptional, IsString } from 'class-validator';
 export class CreateUserDto {
   @IsString()
   @ApiProperty({
-    example: 'user@example.com',
+    example: 'admin@example.com',
   })
   email: string;
 
   @IsString()
   @ApiProperty({
-    example: 'user',
+    example: 'admin',
   })
   username: string;
 
   @IsString()
   @ApiProperty({
-    example: 'User',
+    example: 'Admin User',
   })
   fullName: string;
 
@@ -29,7 +29,7 @@ export class CreateUserDto {
 
   @IsString()
   @ApiProperty({
-    example: 'S3cret',
+    example: 'password',
   })
   password: string;
 

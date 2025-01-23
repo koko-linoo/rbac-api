@@ -9,12 +9,21 @@ export class ModulesService {
 
   create(data: CreateModuleDto) {
     return this.prisma.module.create({
-      data,
+      data: {
+        name: data.name,
+        actions: {
+          create: data.actions,
+        },
+      },
     });
   }
 
   findAll() {
-    return this.prisma.module.findMany();
+    return this.prisma.module.findMany({
+      include: {
+        actions: true,
+      },
+    });
   }
 
   findOne(id: string) {
@@ -33,7 +42,9 @@ export class ModulesService {
       where: {
         id,
       },
-      data,
+      data: {
+        name: data.name,
+      },
     });
   }
 

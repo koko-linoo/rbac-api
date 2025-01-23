@@ -21,6 +21,7 @@ export class ModulesController {
   @Post()
   @ApiOkResponse({ status: 200, type: ModuleEntity })
   create(@Body() createModuleDto: CreateModuleDto) {
+    console.log(createModuleDto);
     return this.modulesService.create(createModuleDto);
   }
 

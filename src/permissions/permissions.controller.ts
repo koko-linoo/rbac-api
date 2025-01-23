@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -12,7 +11,7 @@ import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Permission } from 'src/utils/decorators/permission.decorator';
 import { JwtAuthGuard } from 'src/utils/guards/jwt-auth.guard';
 import { CreatePermissionDto } from './dto/create-permission.dto';
-import { UpdatePermissionDto } from './dto/update-permission.dto';
+import { UpdatePermissionWithRoleIdDto } from './dto/update-permission.dto';
 import { PermissionEnity } from './entities/permission.entity';
 import { PermissionsService } from './permissions.service';
 
@@ -44,14 +43,14 @@ export class PermissionsController {
     return this.permissionsService.findOne(id);
   }
 
-  @Patch(':id')
-  @Permission(['Permission', 'Permission-update'])
+  @Post('/update-permissions')
+  @Permission(['Permission', 'update'])
   @ApiOkResponse({ status: 200, type: PermissionEnity })
-  update(
-    @Param('id') id: string,
-    @Body() updatePermissionDto: UpdatePermissionDto,
-  ) {
-    return this.permissionsService.update(id, updatePermissionDto);
+  update(@Body() { roleId, permissions }: UpdatePermissionWithRoleIdDto) {
+    return this.permissionsService.updatePermissionsWithRoleId(
+      roleId,
+      permissions,
+    );
   }
 
   @Delete(':id')

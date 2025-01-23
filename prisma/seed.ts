@@ -21,23 +21,23 @@ async function main() {
             createMany: {
               data: [
                 {
-                  action: 'User-create',
+                  action: 'create',
                   module: 'User',
                 },
                 {
-                  action: 'User-list',
+                  action: 'list',
                   module: 'User',
                 },
                 {
-                  action: 'User-detail',
+                  action: 'detail',
                   module: 'User',
                 },
                 {
-                  action: 'User-update',
+                  action: 'update',
                   module: 'User',
                 },
                 {
-                  action: 'User-delete',
+                  action: 'delete',
                   module: 'User',
                 },
               ],

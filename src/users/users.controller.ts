@@ -27,7 +27,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @Permission(['User', 'User-create'])
+  @Permission(['User', 'create'])
   @ApiBearerAuth()
   @ApiResponse({ status: 200, type: UserEntity })
   create(@Body() createUserDto: CreateUserDto) {
@@ -36,14 +36,14 @@ export class UsersController {
 
   @ApiBearerAuth()
   @ApiResponse({ status: 200, type: UserPaginatedResponseDto })
-  @Permission(['User', 'User-list'])
+  @Permission(['User', 'list'])
   @Get()
   findAll(@Query() query: PaginationQueryDto) {
     return this.usersService.findAll(query);
   }
 
   @Get(':id')
-  @Permission(['User', 'User-detail'])
+  @Permission(['User', 'detail'])
   @ApiBearerAuth()
   @ApiResponse({ status: 200, type: UserEntity })
   findOne(@Param('id') id: string) {
@@ -51,7 +51,7 @@ export class UsersController {
   }
 
   @Patch(':id')
-  @Permission(['User', 'User-update'])
+  @Permission(['User', 'update'])
   @ApiBearerAuth()
   @ApiResponse({ status: 200, type: UserEntity })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
@@ -59,7 +59,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  @Permission(['User', 'User-delete'])
+  @Permission(['User', 'delete'])
   @ApiBearerAuth()
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);

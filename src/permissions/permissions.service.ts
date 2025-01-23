@@ -34,6 +34,25 @@ export class PermissionsService {
     });
   }
 
+  async updatePermissionsWithRoleId(
+    roleId: string,
+    data: UpdatePermissionDto[],
+  ) {
+    await this.prisma.permission.deleteMany({
+      where: {
+        roleId,
+      },
+    });
+
+    return this.prisma.permission.createMany({
+      data: data.map((item) => ({
+        action: item.action,
+        module: item.module,
+        roleId,
+      })),
+    });
+  }
+
   remove(id: string) {
     return this.prisma.permission.delete({
       where: {

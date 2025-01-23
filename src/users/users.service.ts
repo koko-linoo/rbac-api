@@ -106,7 +106,11 @@ export class UsersService {
         ],
       },
       include: {
-        role: true,
+        role: {
+          include: {
+            permissions: true,
+          },
+        },
       },
     });
   }

@@ -10,6 +10,11 @@ import { JwtUser, LoginDto, TokenDto } from './dto/login.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Post('register')
+  register() {
+    this.authService.register();
+  }
+
   @Post('login')
   @ApiOkResponse({
     status: 200,

@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 import { ActionsModule } from './actions/actions.module';
 import { AuthModule } from './auth/auth.module';
+import { AppMailerModule } from './mailer/mailer.module';
 import { ModulesModule } from './modules/modules.module';
-import { NotificationModule } from './notifications/notification.module';
 import { PermissionsModule } from './permissions/permissions.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { RolesModule } from './roles/roles.module';
 import { UsersModule } from './users/users.module';
-import { ChatRoomsModule } from './chat-rooms/chat-rooms.module';
 
 @Module({
   imports: [
@@ -18,8 +19,10 @@ import { ChatRoomsModule } from './chat-rooms/chat-rooms.module';
     ModulesModule,
     PermissionsModule,
     RolesModule,
-    NotificationModule,
-    ChatRoomsModule,
+    AppMailerModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+    }),
   ],
 })
 export class AppModule {}

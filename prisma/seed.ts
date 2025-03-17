@@ -8,7 +8,7 @@ async function main() {
       email: 'admin@admin.com',
       username: 'admin',
       fullName: 'Admin',
-      password: await hash('password', 10),
+      password: await hash('P@ssw0rd', 10),
       isDeleted: false,
       createdAt: new Date(),
       updatedAt: new Date(),

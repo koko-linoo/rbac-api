@@ -1,5 +1,5 @@
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -8,46 +8,24 @@ generator client {
 }
 
 model User {
-  id         String   @id @default(uuid())
-  email      String   @unique
-  username   String   @unique
-  fullName   String?  @map("full_name")
-  password   String?
-  isDeleted  Boolean  @default(false) @map("is_deleted")
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
-  profileUrl String?  @map("profile_url")
-  roleId     String?  @map("role_id")
+  id                     String    @id @default(uuid())
+  email                  String    @unique
+  username               String    @unique
+  fullName               String?   @map("full_name")
+  password               String?
+  createdAt              DateTime  @default(now()) @map("created_at")
+  updatedAt              DateTime  @updatedAt @map("updated_at")
+  profileUrl             String?   @map("profile_url")
+  roleId                 String?   @map("role_id")
+  isDeleted              Boolean   @default(false) @map("is_deleted")
+  deletedAt              DateTime? @map("deleted_at")
+  emailVerifiedAt        DateTime? @map("email_verified_at")
+  emailVerificationToken String?   @map("email_verification_token")
+  isEmailVerified        Boolean   @default(false) @map("is_email_verified")
 
-  role    Role?     @relation(fields: [roleId], references: [id])
-  Message Message[]
+  role Role? @relation(fields: [roleId], references: [id])
 
   @@map("users")
-}
-
-model ChatRoom {
-  id        String    @id @default(uuid())
-  name      String
-  userList  String    @map("user_list")
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  messages  Message[]
-
-  @@map("chat_rooms")
-}
-
-model Message {
-  id         String   @id @default(uuid())
-  message    String
-  userId     String
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
-  chatRoomId String   @map("chat_room_id")
-  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
-
-  user User @relation(fields: [userId], references: [id])
-
-  @@map("messages")
 }
 
 model Role {
@@ -99,4 +77,18 @@ model Permission {
 
   @@unique([roleId, module, action])
   @@map("permissions")
+}
+
+model Product {
+  id        String   @id @default(uuid())
+  name      String
+  price     Int
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  isDeleted Boolean  @default(false) @map("is_deleted")
+  createdBy String   @map("created_by")
+  updatedBy String   @map("updated_by")
+  deletedBy String   @map("deleted_by")
+
+  @@map("products")
 }

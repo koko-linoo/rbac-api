@@ -19,8 +19,11 @@ export class AuthService {
   ) {}
 
   async register(registerDto?: CreateUserDto) {
-    console.log(registerDto);
-    return this.mailService.sendMail();
+    const user = await this.userService.create(registerDto);
+
+    this.mailService.sendVerificationMail(user.email);
+
+    return user;
   }
 
   async login({ username, password }: LoginDto) {

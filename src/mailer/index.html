@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 20px;
+      }
+      .container {
+        max-width: 600px;
+        margin: auto;
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      .header {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px;
+        font-size: 20px;
+      }
+      .content {
+        margin: 20px 0;
+      }
+      .button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        display: inline-block;
+      }
+      .footer {
+        margin-top: 20px;
+        font-size: 12px;
+        color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">Verify Your Email</div>
+      <div class="content">
+        <p>Hello,</p>
+        <p>
+          Thank you for signing up! Please verify your email by clicking the
+          button below:
+        </p>
+        <a href="${verificationLink}" class="button" target="_blank"
+          >Verify Email</a
+        >
+        <p>
+          If the button doesn't work, copy and paste the following link into
+          your browser:
+        </p>
+        <p>{verificationLink}</p>
+      </div>
+      <div class="footer">
+        <p>If you did not sign up, you can ignore this email.</p>
+        <p>Best regards,<br />Your Company</p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,12 +1,21 @@
 version: '3.9'
 services:
-  mysql:
-    container_name: mysql
-    image: mysql:8.0.27
+  postgres:
+    image: postgres:17.1
+    container_name: psql
     ports:
-      - 3306:3306
-    volumes:
-      - ~/apps/mysql:/var/lib/mysql
+      - 5432:5432
     environment:
-      - MYSQL_DATABASE=my-db
-      - MYSQL_ROOT_PASSWORD=password
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=ecommerce_db
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - ecommerce-network
+
+volumes:
+  postgres:
+
+networks:
+  ecommerce-network:
